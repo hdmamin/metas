@@ -4,5 +4,5 @@ A collection of useful decorators, metaclasses, and mixins to make programming i
 
 ## Documentation
 
-https://hdmamin.github.io/htools/build/html/genindex.html
+https://hdmamin.github.io/metas
 
