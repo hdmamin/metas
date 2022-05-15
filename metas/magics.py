@@ -5,7 +5,7 @@ from IPython.core.magic_arguments import (argument, magic_arguments,
                                           parse_argstring)
 import warnings
 
-from htools.meta import timebox
+from metas.meta import timebox
 
 
 @magics_class
@@ -232,9 +232,9 @@ class TimeboxMagic(Magics):
     """Timebox a cell's execution to a user-specified duration. As with any
     standard try/except block, note that values can change during execution
     even if an error is eventually thrown (i.e. no rollback occurs).
-    
+
     Sample usage:
-    
+
     %%timebox 3
     # Throw error if cell takes longer than 3 seconds to execute.
     output = slow_function(*args)

@@ -1,4 +1,0 @@
-Documentation
-=============
-.. automodule:: htools
-    :members:

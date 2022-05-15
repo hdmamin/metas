@@ -12,8 +12,8 @@ import subprocess
 import sys
 import warnings
 
-from htools.core import tolist, flatten, save
-from htools.meta import get_module_docstring, in_standard_library, source_code
+from metas.core import tolist, flatten, save
+from metas.meta import get_module_docstring, in_standard_library, source_code
 
 
 def Display(lines, out):
@@ -35,7 +35,7 @@ def Display(lines, out):
 fire.core.Display = Display
 
 
-# Start of htools CLI below. Stuff above is to import when building new CLIs
+# Start of metas CLI below. Stuff above is to import when building new CLIs
 # in other projects.
 # TODO: adjust readme updater init so we can pass in lib-dirs and non-lib dirs
 # separately. Ran into some annoying issues where setup.py in parent doesn't
@@ -331,7 +331,7 @@ def module_docstring(func):
     docstring. This is intended for use in simple (1 command,
     zero or minimal arguments) fire CLIs where I want to write a single
     docstring for the module and function. Writing it at the module level
-    allows htools.cli.ReadmeUpdater to update the appropriate readme, while
+    allows metas.cli.ReadmeUpdater to update the appropriate readme, while
     this decorator ensures that the info will be available when using the
     '--help' flag at the command line. Do NOT use this on functions in a
     library - I've only tested it on py scripts and it relies on sys.argv, so
@@ -404,7 +404,7 @@ def module_dependencies(path, package='', exclude_std_lib=True):
     Returns
     -------
     tuple[list]: First item contains external dependencies (e.g. torch). Second
-    item contains internal dependencies (e.g. htools.cli depends on htools.core
+    item contains internal dependencies (e.g. metas.cli depends on metas.core
     in the sense that it imports it).
     """
     # `skip` is for packages that are imported and aren't on pypi but don't
@@ -472,7 +472,7 @@ def library_dependencies(lib, skip_init=True):
     """Find libraries a library depends on. This helps us generate
     requirements.txt files for user-built packages. It also makes it easy to
     create different dependency groups for setup.py, allowing us to install
-    htools[meta] or htools[core] (for example) instead of all htools
+    metas[meta] or metas[core] (for example) instead of all metas
     requirements if we only want to use certain modules.
 
     # TODO: at the moment, this does not support:
@@ -497,8 +497,8 @@ def library_dependencies(lib, skip_init=True):
     mapping module name to a list of its external dependencies. Third is a dict
     mapping module name to a list of its internal dependencies. Fourth is a
     dict mapping module name to a fully resolved list of external dependencies
-    (including implicit dependencies: e.g. if htools.core imports requests and
-    htools.meta imports htools.core, then htools.meta depends on requests too).
+    (including implicit dependencies: e.g. if metas.core imports requests and
+    metas.meta imports metas.core, then metas.meta depends on requests too).
     """
     mod2deps = {}
     mod2int_deps = {}
@@ -596,15 +596,15 @@ def update_readmes(dirs, default='_'):
     parser.update_dirs()
 
 
-def source(name, lib='htools', copy=False):
-    """Print or copy the source code of a class/function defined in htools.
+def source(name, lib='metas', copy=False):
+    """Print or copy the source code of a class/function defined in metas.
 
     Parameters
     ----------
     name: str
-        Class or function defined in htools.
+        Class or function defined in metas.
     lib: str
-        Name of library containing `name`, usually 'htools'. Won't work on
+        Name of library containing `name`, usually 'metas'. Won't work on
         the standard library or large complex libraries (specifically, those
         with nested file structures).
     copy: bool
@@ -613,20 +613,20 @@ def source(name, lib='htools', copy=False):
 
     Returns
     -------
-    str: Source code of htools class/function.
+    str: Source code of metas class/function.
 
     Examples
     --------
     # Copies source code of auto_repr decorator to clipboard. Excluding the
     # -c flag will simply print out the source code.
-    htools src auto_repr -c
+    metas src auto_repr -c
     """
     src, backup_name = source_code(name, lib_name=lib)
     if not src:
         print(f'Failed to retrieve `{name}` source code from {lib}.')
         if backup_name != name:
             cmd = f'{lib} src {backup_name}'
-            if lib != 'htools':
+            if lib != 'metas':
                 cmd += f' --lib = {lib}'
             print(f'We suggest trying the command:\n\n{cmd}')
     if copy:

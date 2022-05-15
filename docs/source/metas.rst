@@ -1,37 +1,37 @@
-htools package
-==============
+metas package
+=============
 
 Submodules
 ----------
 
-htools.config module
+metas.config module
 --------------------
 
-.. automodule:: htools.config
+.. automodule:: metas.config
    :members:
    :undoc-members:
    :show-inheritance:
 
-htools.core module
+metas.core module
 ------------------
 
-.. automodule:: htools.core
+.. automodule:: metas.core
    :members:
    :undoc-members:
    :show-inheritance:
 
-htools.magics module
+metas.magics module
 --------------------
 
-.. automodule:: htools.magics
+.. automodule:: metas.magics
    :members:
    :undoc-members:
    :show-inheritance:
 
-htools.meta module
+metas.meta module
 ------------------
 
-.. automodule:: htools.meta
+.. automodule:: metas.meta
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,7 +40,7 @@ htools.meta module
 Module contents
 ---------------
 
-.. automodule:: htools
+.. automodule:: metas
    :members:
    :undoc-members:
    :show-inheritance:

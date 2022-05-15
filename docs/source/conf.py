@@ -12,13 +12,13 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../htools'))
+sys.path.insert(0, os.path.abspath('../../metas'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'Htools'
-copyright = '2020, Harrison Mamin'
+project = 'Metas'
+copyright = '2022, Harrison Mamin'
 author = 'Harrison Mamin'
 
 # The full version, including alpha/beta/rc tags

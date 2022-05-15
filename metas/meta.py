@@ -25,9 +25,9 @@ import urllib
 import warnings
 from weakref import WeakSet
 
-from htools.core import hdir, load, save, identity, hasstatic, tolist,\
+from metas.core import hdir, load, save, identity, hasstatic, tolist,\
     select, func_name
-from htools.config import STD_LIB_GIST
+from metas.config import STD_LIB_GIST
 
 
 class AutoInit:
@@ -41,7 +41,7 @@ class AutoInit:
     This updated version of AutoInit is slightly more user friendly than in V1
     (no more passing locals() to super()) but also slower and probably requires
     more testing (all because of the frame hack in the init method). Note that
-    usage differs from the AutoInit present in htools<=2.0.0, so this is a
+    usage differs from the AutoInit present in metas<=2.0.0, so this is a
     breaking change.
 
     Examples
@@ -2214,7 +2214,7 @@ def temporary_globals(func, **kwargs):
     """Make a dict of key-value pairs temporarily available to a function in
     its global vars. We have to use function globals rather than globals()
     because the latter is evaluated when importing this function and so takes
-    on the globals of htools/meta.py rather than of the scope where the
+    on the globals of metas/meta.py rather than of the scope where the
     code will ultimately be executed. Used in `add_kwargs` and `fallback`
     decorators (i.e. mostly for toy functionality, risky to actually use this).
     """
@@ -2241,7 +2241,7 @@ def defined_functions(exclude=(), include_imported=False,
     include_imported: bool
         If True, include imported functions (this can be a LOT of functions if
         we've used star imports, as recommended for certain libraries like
-        htools and fastai). If False, only return functions defined in the
+        metas and fastai). If False, only return functions defined in the
         current module.
     include_ipy_like: bool
         Specifies whether to include functions whose names are like "_243"
@@ -2281,12 +2281,12 @@ def decorate_functions(decorator, exclude=(), include_imported=False,
         The function that will be used to decorate all available functions.
         This must accept only a function as an argument, so make sure to pass
         in the appropriate object (for instance, if you want to use the
-        htools.meta.timeboxed decorator, you must call it first with the
+        metas.meta.timeboxed decorator, you must call it first with the
         desired arguments (e.g. time).
     include_imported: bool
         If True, include imported functions (this can be a LOT of functions if
         we've used star imports, as recommended for certain libraries like
-        htools and fastai). If False, only return functions defined in the
+        metas and fastai). If False, only return functions defined in the
         current module.
     include_ipy_like: bool
         Specifies whether to include functions whose names are like "_243"
@@ -2315,7 +2315,7 @@ def register_functions(prefix):
     """Construct a dict of certain functions defined in a module. This lets
     scripts that import the module access these functions dynamically using a
     dict rather than using getattr messiness, importlib (which makes imports
-    invisible to htools requirements.txt builder), or eval usage. See Examples.
+    invisible to metas requirements.txt builder), or eval usage. See Examples.
 
     Parameters
     ----------
@@ -2357,12 +2357,12 @@ def register_functions(prefix):
             if k.startswith(prefix)}
 
 
-def source_code(name, lib_name='htools'):
+def source_code(name, lib_name='metas'):
     """Find the snippet of source code for a class/function defined in some
-    library (usually htools). Like `inspect.getsource` except you just pass it
+    library (usually metas). Like `inspect.getsource` except you just pass it
     strings and it handles all the imports.
 
-    Warning: this was initially intended solely for use on htools-defined
+    Warning: this was initially intended solely for use on metas-defined
     functionality, and it wasn't til afterwards that I realized it might extend
     reasonably well to other libraries. Known limitations: built in libraries
     (e.g. os) and big libraries with nested file structures (e.g. fastai)
@@ -2371,14 +2371,14 @@ def source_code(name, lib_name='htools'):
     Parameters
     ----------
     name: str
-        Class or function (usually defined in htools) that you want to see
+        Class or function (usually defined in metas) that you want to see
         source code for.
     lib_name: str
-        Name of library to check in, usually 'htools'.
+        Name of library to check in, usually 'metas'.
 
     Returns
     -------
-    tuple[str]: First item is the htools source code of the function/class
+    tuple[str]: First item is the metas source code of the function/class
     (if not found, this is empty). Second item is a string that is either empty
     (if the function/class was found) or the name of a class/function most
     similar to the user-specified `name` if not.
@@ -2388,7 +2388,7 @@ def source_code(name, lib_name='htools'):
     else:
         lib = sys.modules[lib_name]
 
-    # As of version 6.3.1, htools __init__ imports most modules so we can often
+    # As of version 6.3.1, metas __init__ imports most modules so we can often
     # find the desired object as an attribute of the module itself. But we
     # might change that behavior in the future so the pkutil method is a good
     # fallback (and even now, it's needed for pd_tools methods).

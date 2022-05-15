@@ -25,7 +25,7 @@ import time
 from tqdm.auto import tqdm
 import wordninja as wn
 
-from htools.config import get_credentials, get_default_user
+from metas.config import get_credentials, get_default_user
 
 
 class InvalidArgumentError(Exception):
@@ -755,7 +755,7 @@ class BasicPipeline:
         *funcs: function(s)
             One or more functions to apply in the specified order.
         """
-        # Make `funcs` mutable. Could use @htools.meta.delegate('funcs')
+        # Make `funcs` mutable. Could use @metas.meta.delegate('funcs')
         # but not sure if that would cause circular import issues. Check later.
         self.funcs = list(funcs)
 
@@ -828,7 +828,7 @@ def pipe(x, *funcs, verbose=False, attr=''):
 
 
 def vcounts(arr, normalize=True):
-    """Equivalent of pandas_htools vcounts method that we can apply on lists
+    """Equivalent of pandas_metas vcounts method that we can apply on lists
     or arrays. Basically just a wrapper around Counter but with optional
     normalization.
 
@@ -1603,7 +1603,7 @@ def cd_root(root_subdir='notebooks', max_depth=4):
         If not found in the current working directory, this will move
         to the parent directory repeatedly until it is found. Choose carefully:
         if you have multiple directories with the same name in your directory
-        structure (e.g. ~/htools/lib/htools), 'htools' would be a bad choice
+        structure (e.g. ~/metas/lib/metas), 'metas' would be a bad choice
         if you want to end up in ~).
     max_depth: int
         Max number of directory levels to traverse. Don't want to get stuck in

@@ -1,15 +1,13 @@
 from functools import partial
 from IPython.display import display, HTML
-import matplotlib.pyplot as plt
 from numbers import Number
 import numpy as np
 import operator
 import pandas as pd
 import pandas_flavor as pf
-from sklearn.model_selection import KFold
 
-from htools.core import spacer
-from htools import set_module_global
+from metas.core import spacer
+from metas import set_module_global
 
 
 @pf.register_series_method
@@ -157,87 +155,6 @@ def impute(df, col, fill_val=None, method='mean', inplace=False, dummy=True):
         return df
 
 
-@pf.register_dataframe_method
-def target_encode(df, x, y, n=5, stat='mean', shuffle=True, state=None,
-                  inplace=False, df_val=None):
-    """Compute target encoding based on one or more feature columns.
-
-    Parameters
-    -----------
-    x: str, list[str]
-        Name of columns to group by.
-    y: str
-        Name of target variable column.
-    n: int
-        Number of folds for regularized version. Must be >1.
-    stat: str
-        Specifies the type of aggregation to use on the target column.
-        Typically this would be mean or occasionally median, but all the
-        standard dataframe aggregation functions are available:
-        ('mean', 'median', 'min', 'max', 'std', 'var', 'skew').
-    shuffle: bool
-        Specifies whether to shuffle the dataframe when creating folds of the
-        data. This would be important, for instance, if the dataframe is
-        ordered by a user_id, where each user has multiple rows. Here, a lack
-        of shuffling means that all of a user's rows are likely to end up in
-        the same fold. This effectively eliminates the value of creating the
-        folds in the first place.
-    state: None, int
-        If state is an integer and shuffle is True, the folds produced by
-        KFold will be repeatable. If state is None (the default) and shuffle
-        is True, shuffling will be different every time.
-    inplace: bool
-        Specifies whether to do the operation in place. The inplace version
-        does not return anything. When inplace==False, the dataframe is
-        returned.
-    df_val: None, pd.DataFrame
-        Validation set (optional). If provided, naive (i.e. un-regularized)
-        target encoding will be performed using the labels from the original
-        (i.e. training) df. NOTE: Inplace must be True when passing in df_val,
-        because we only return the original df.
-
-    Returns
-    --------
-    pd.DataFrame or None
-    """
-    assert df_val is None or inplace, 'To encode df_val, inplace must be True.'
-    # Prevents SettingWithCopy warning, which is not actually an issue here.
-    pd.options.mode.chained_assignment = None
-
-    if not inplace:
-        df = df.copy()
-    new_col = f"{'_'.join(x)}__{stat}_enc"
-    global_agg = getattr(df[y], stat)()
-    df[new_col] = global_agg
-
-    def indexer(row):
-        """Map a dataframe row to its grouped target value. When we group by
-        multiple columns, our groupby object `enc` will require a tuple index.
-
-        Note: When benchmarking function speed, it was slightly faster when
-        leaving the if statement inside this function. Not sure if this is a
-        coincidence but it at least seems like it's not hurting performance.
-        """
-        key = row[0] if len(x) == 1 else tuple(row)
-        return enc.get(key, global_agg)
-
-    # Compute target encoding on n-1 folds and map back to nth fold.
-    for train_idx, val_idx in KFold(n, shuffle, state).split(df):
-        enc = getattr(df.iloc[train_idx, :].groupby(x)[y], stat)()
-        mapped = df.loc[:, x].iloc[val_idx].apply(indexer, axis=1)
-        df.loc[:, new_col].iloc[val_idx] = mapped
-    df[new_col].fillna(global_agg, inplace=True)
-
-    # Encode validation set in place if it is passed in. No folds are used.
-    if df_val is not None:
-        enc = getattr(df.groupby(x)[y], stat)()
-        df_val[new_col] = df_val[x].apply(indexer, axis=1).fillna(global_agg)
-
-    if not inplace:
-        return df
-
-
-@pf.register_dataframe_method
 def top_categories(df, col, n_categories=None, threshold=None):
     """Filter a dataframe to return rows containing the most common categories.
     This can be useful when a column has many possible values, some of which
@@ -472,35 +389,6 @@ def is_list_col(col):
 
 
 @pf.register_dataframe_method
-@pf.register_series_method
-def verbose_plot(df, nrows=None, **kwargs):
-    """Plot data and also print it out as a table. For example, this is
-    nice when finding quantiles, where it's often helpful to plot them for a
-    quick visual snapshot but also to examine the table of values for more
-    details.
-
-    Parameters
-    ----------
-    nrows: int or None
-        If provided, will truncate the printed table. Otherwise all rows will
-        be shown.
-    kwargs: any
-        Arguments to pass to the plot method.
-
-    Returns
-    -------
-    None
-
-    Examples
-    --------
-    df.bids.quantile(np.arange(0, 1, .1)).verbose_plot(kind='bar', color='red')
-    """
-    df.plot(**kwargs)
-    df.head(nrows).pprint()
-    plt.show()
-
-
-@pf.register_dataframe_method
 def fuzzy_groupby(df, col, model=None, cats=5, fuzzy_col=True,
                   globalize_vecs='_vecs', **kwargs):
     """Pandas method to group by a string column using fuzzy matching using
@@ -508,7 +396,7 @@ def fuzzy_groupby(df, col, model=None, cats=5, fuzzy_col=True,
     as the most common values in the data.
 
     Note: this method will try to import things from the sentence_transformers
-    package. I chose not to include that in the htools dependencies since this
+    package. I chose not to include that in the metas dependencies since this
     is sort of niche/experimental functionality and I don't want to require
     transformers for all installs.
 

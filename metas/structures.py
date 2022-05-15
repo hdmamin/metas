@@ -10,8 +10,8 @@ import numpy as np
 from tqdm.auto import tqdm
 import warnings
 
-from htools.core import ngrams, tolist, identity, func_name, listlike, select
-from htools.meta import add_docstring
+from metas.core import ngrams, tolist, identity, func_name, listlike, select
+from metas.meta import add_docstring
 
 
 def Args(**kwargs):
@@ -835,7 +835,7 @@ class FuzzyKeyDict(_FuzzyDictBase):
 
 class DotDict(dict):
     """Dictionary that allows use of dot notation as well as bracket notation.
-    This should be picklable starting in htools>=6.0.6.
+    This should be picklable starting in metas>=6.0.6.
     """
 
     def __getattr__(self, k):
@@ -1047,7 +1047,7 @@ class Results:
     1. IIRC Args is impossible to pickle, I think do some hacky naming choices
     by me. Though I vaguely recall namedtuple itself may have similar problems
     so that might have happened anyway.
-    2. DotDict addresses #1 (you do of course need to import htools to load
+    2. DotDict addresses #1 (you do of course need to import metas to load
     it, but I always have it imported anyway), but does not support tuple-style
     unpacking.
 

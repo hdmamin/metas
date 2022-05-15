@@ -8,7 +8,7 @@ STD_LIB_GIST = 'https://gist.githubusercontent.com/hdmamin/' \
                '5c766f9cbfb9e98a151e57086cf3ee36/raw/' \
                '3955ab460f50be18e86846c4dd380b19947042f5/standard_library.json'
 
-CONFIG_DIR = os.path.expanduser(os.path.join('~', '.htools'))
+CONFIG_DIR = os.path.expanduser(os.path.join('~', '.metas'))
 CREDS_FILE = os.path.join(CONFIG_DIR, 'credentials.csv')
 CONFIG_FILE = os.path.join(CONFIG_DIR, 'config.csv')
 
@@ -69,7 +69,7 @@ def get_credentials(from_email):
         if cmd == 'y':
             password = input('Enter password:\n')
             cmd2 = input('Would you like to save these credentials locally '
-                         '(if so, htools will remember your password next '
+                         '(if so, metas will remember your password next '
                          'time)? [y/n]\n')
             if cmd2 == 'y':
                 with open(CREDS_FILE, 'a') as f:

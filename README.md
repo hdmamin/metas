@@ -1,6 +1,6 @@
-# Htools
+# Metas
 
-Harrison's utility functions.
+A collection of useful decorators, metaclasses, and mixins to make programming in python a productive and convenient experience.
 
 ## Documentation
 

@@ -1,0 +1,2 @@
+-remove numpy dependency?
+-setup docs html page

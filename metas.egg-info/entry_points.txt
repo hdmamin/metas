@@ -1,0 +1,2 @@
+[console_scripts]
+metas = metas.cli:cli

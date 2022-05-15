@@ -8,7 +8,7 @@ def requirements(path='requirements.txt'):
     return deps
 
 
-def version(path=os.path.join('htools', '__init__.py')):
+def version(path=os.path.join('metas', '__init__.py')):
     with open(path, 'r') as f:
         for row in f:
             if not row.startswith('__version__'):
@@ -17,10 +17,11 @@ def version(path=os.path.join('htools', '__init__.py')):
 
 
 setup(
-    name='htools',
+    name='metas',
     version=version(),
-    description='Harrison\'s custom functions.',
-    packages=find_packages(include=['htools']),
+    description='Miscellaneous decorators, metclasses, and mixins to make '
+        'programming in python a more convient and productive experience.',
+    packages=find_packages(include=['metas']),
     author='Harrison Mamin',
     zip_safe=False,
     install_requires=requirements(),
@@ -28,6 +29,6 @@ setup(
     # adding `apt install build-essentials`.
     extras_require={'fuzzy': ['fuzzywuzzy'],
                     'speedup': ['fuzzywuzzy[speedup]']},
-    entry_points={'console_scripts': ['htools=htools.cli:cli']}
+    entry_points={'console_scripts': ['metas=metas.cli:cli']}
 )
 
