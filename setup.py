@@ -22,7 +22,6 @@ setup(
     description='Miscellaneous decorators, metclasses, and mixins to make '
         'programming in python a more convient and productive experience.',
     packages=find_packages(include=['metas']),
-    author='Harrison Mamin',
     zip_safe=False,
     install_requires=requirements(),
     # If installing speedup causes gcc error in docker image, try

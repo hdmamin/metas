@@ -2,7 +2,6 @@ Metadata-Version: 2.1
 Name: metas
 Version: 0.0.1
 Summary: Miscellaneous decorators, metclasses, and mixins to make programming in python a more convient and productive experience.
-Author: Harrison Mamin
 License: UNKNOWN
 Platform: UNKNOWN
 Provides-Extra: fuzzy

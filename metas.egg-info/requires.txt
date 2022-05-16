@@ -1,13 +1,11 @@
 datasketch>=1.5.0
 fire>=0.3.0
 ipython
-matplotlib
 multipledispatch
 numpy
 pandas
 pandas_flavor
 pyperclip
-scikit-learn
 tqdm
 wordninja>=2.0.0
 
