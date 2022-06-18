@@ -2,7 +2,7 @@
 !.gitattributes
 !.gitignore
 *.pyc
-htools.egg-info/
+metas.egg-info/
 __pycache__/
 data/
 dist/
