@@ -4,4 +4,4 @@ from metas import pd_tools
 from metas.structures import *
 
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
